@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Participants</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ---------------- GLOBAL ---------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top right, #0c0c0c 0%, #1a1a2e 40%, #16213e 100%);
+  color: #fff;
+  min-height: 100vh;
+  padding: 30px;
+  line-height: 1.6;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Background gradients */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(233, 10, 140, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(83, 217, 254, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(255, 204, 0, 0.1) 0%, transparent 50%);
+  z-index: -1;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------------- HEADER ---------------- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ffcc00, #e90a8c, #53d9fe, transparent);
+  box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ffcc00, #ffd700, #ffcc00);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(255, 204, 0, 0.5);
+  position: relative;
+  display: inline-block;
+}
+
+.page-title::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #ffcc00, #ffd700);
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
+}
+
+/* Buttons */
+.create-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #868184, #ef52d2);
+  color: #fff;
+  padding: 12px 25px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 15px rgba(83, 217, 254, 0.3),
+    0 0 20px rgba(233, 10, 140, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.create-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.create-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 7px 20px rgba(233, 10, 140, 0.5),
+    0 0 25px rgba(83, 217, 254, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.create-btn:hover::before {
+  left: 100%;
+}
+
+.create-btn i {
+  margin-right: 8px;
+}
+
+/* ---------------- EVENT INFO SECTION ---------------- */
+.event-info-section {
+  background: rgba(20, 20, 35, 0.7);
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 40px;
+  box-shadow: 
+    0 10px 20px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.event-info-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #e90a8c, #53d9fe);
+  box-shadow: 0 0 10px rgba(233, 10, 140, 0.7);
+}
+
+.event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.event-header h2 {
+  font-size: 1.8rem;
+  color: #ffd700;
+  margin: 0;
+}
+
+.event-actions {
+  display: flex;
+  gap: 15px;
+}
+
+/* Download & Winner Buttons */
+.download-btn,
+.winner-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.download-btn {
+  background: #1D5D1A;
+  color: white;
+}
+
+.download-btn i {
+  margin-right: 8px;
+}
+
+.download-btn:hover {
+  background: #28A428;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(40, 164, 40, 0.4);
+}
+
+.winner-btn {
+  background: linear-gradient(90deg, #ff3191, #27d7ff);
+  color: white;
+}
+
+.winner-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(255, 49, 145, 0.4);
+}
+
+.event-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.event-details p {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.event-details strong {
+  min-width: 80px;
+  color: #bbb;
+  margin-right: 10px;
+}
+
+/* ---------------- PARTICIPANTS SECTION ---------------- */
+.participants-section {
+  margin-top: 40px;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  color: #ffcc00;
+  position: relative;
+  padding-left: 15px;
+  text-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 5px;
+  background: linear-gradient(to bottom, #ffcc00, #ffd700);
+  border-radius: 5px;
+  box-shadow: 0 0 8px rgba(255, 204, 0, 0.7);
+}
+
+/* Stats Bar */
+.stats-bar {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: rgba(20, 20, 35, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1;
+  min-width: 200px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ffd700;
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+/* ---------------- PARTICIPANTS GRID ---------------- */
+.participants-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+}
+
+.participant-card {
+  background: rgba(20, 20, 35, 0.7);
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 
+    0 10px 20px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.participant-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #53d9fe, #e90a8c);
+  box-shadow: 0 0 10px rgba(83, 217, 254, 0.7);
+}
+
+.participant-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 15px 30px rgba(0, 0, 0, 0.5),
+    0 0 25px rgba(233, 10, 140, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.participant-name {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: #ffd700;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 10px;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+.participant-name::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, #e90a8c, #53d9fe);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(233, 10, 140, 0.5);
+}
+
+.participant-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.participant-detail {
+  display: flex;
+  align-items: flex-start;
+}
+
+.participant-detail strong {
+  min-width: 100px;
+  color: #bbb;
+  font-weight: 500;
+}
+
+.registration-date {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.registration-date i {
+  margin-right: 8px;
+  color: #53d9fe;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #aaa;
+  position: relative;
+  grid-column: 1 / -1;
+}
+
+.empty-state i {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #777;
+}
+
+/* Floating Elements */
+.floating-elements {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.floating-element {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.05);
+}
+
+.floating-element:nth-child(1) {
+  width: 200px;
+  height: 200px;
+  top: 10%;
+  left: 5%;
+  animation: float 15s infinite linear;
+}
+
+.floating-element:nth-child(2) {
+  width: 150px;
+  height: 150px;
+  top: 70%;
+  right: 10%;
+  animation: float 12s infinite linear reverse;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(30px, -30px) rotate(120deg); }
+  66% { transform: translate(-20px, 20px) rotate(240deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .create-btn {
+    margin-top: 15px;
+  }
+  
+  .participants-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+  }
+  
+  .event-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .event-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .stats-bar {
+    flex-direction: column;
+  }
+  
+  .stat-card {
+    min-width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="floating-elements">
+  <div class="floating-element"></div>
+  <div class="floating-element"></div>
+</div>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1 class="page-title">{{ event_title|default:"Event Participants" }}</h1>
+    <a href="{% url 'faculty_show_event' %}" class="create-btn">
+      <i class="fas fa-arrow-left"></i> BACK TO EVENTS
+    </a>
+  </div>
+
+  <!-- Event Information -->
+  {% if event %}
+  <div class="event-info-section">
+    <div class="event-header">
+      <h2>{{ event.title }}</h2>
+      <div class="event-actions">
+        <a href="{% url 'export_participants_excel' event.id %}" class="download-btn">
+          <i class="fa-solid fa-file-excel"></i> Download Excel
+ 
+        </a>
+        <a href="{% url 'enter_winners' event.id %}" class="winner-btn">
+          <i class="fas fa-trophy"></i> Enter Winners
+        </a>
+      </div>
+    </div>
+    {% if event.winner %}
+<div class="event-info-section">
+  <h3>🏆 Winners</h3>
+  <p>🥇 {{ event.winner.first_winner }}</p>
+  <p>🥈 {{ event.winner.second_winner }}</p>
+  <p>🥉 {{ event.winner.third_winner }}</p>
+</div>
+{% endif %}
+
+    
+    <div class="event-details">
+      <p><strong>Description:</strong> {{ event.description }}</p>
+      <p><strong>Date:</strong> {{ event.date }}</p>
+      <p><strong>Time:</strong> {{ event.time }}</p>
+      <p><strong>Venue:</strong> {{ event.venue }}</p>
+      {% if event.image %}
+      <p><strong>Image:</strong> <img src="{{ event.image.url }}" alt="Event Image" style="max-width: 100px; border-radius: 5px; margin-left: 10px;"></p>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Participants Section -->
+  <div class="participants-section">
+    <h2 class="section-title">Participants List</h2>
+    
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div class="stat-card">
+        <div class="stat-number">{{ participations.count }}</div>
+        <div class="stat-label">Total Participants</div>
+      </div>
+    </div>
+    
+    <!-- Participants Grid -->
+    {% if participations %}
+      <div class="participants-grid">
+        {% for p in participations %}
+          <div class="participant-card">
+            <div class="participant-name">{{ p.name }}</div>
+            <div class="participant-details">
+               <div class="participant-detail">
+              
+                <strong>event:</strong> {{ p.event }}
+              </div>
+
+              <div class="participant-detail">
+              
+                <strong>Email:</strong> {{ p.email }}
+              </div>
+              <div class="participant-detail">
+                <strong>Phone:</strong> {{ p.phone }}
+              </div>
+              <div class="participant-detail">
+                <strong>College:</strong> {{ p.college }}
+              </div>
+              <div class="participant-detail">
+                <strong>Branch:</strong> {{ p.branch }}
+              </div>
+              <div class="participant-detail">
+                <strong>Year:</strong> {{ p.year }}
+              </div>
+            </div>
+            <div class="registration-date">
+              <i class="far fa-calendar-alt"></i>
+              <strong>Registered On:</strong> {{ p.registration_date|date:"d M Y, h:i A" }}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <i class="fas fa-users-slash"></i>
+        <h3>No Participants Yet</h3>
+        <p>No one has registered for this event.</p>
+      </div>
+    {% endif %}
+  </div>
+
+</div>
+
+</body>
+</html>

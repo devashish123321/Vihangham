@@ -1,0 +1,588 @@
+{% load static %}
+
+{% include 'nav.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Management System | Vyangam</title>
+  <style>
+    /* ✅ keep all your same CSS (no change) */
+        * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+
+
+
+
+
+
+
+
+    
+    .hero-img {
+      position: relative;
+      width: 80%;
+      max-width: 480px;
+      filter: drop-shadow(0 0 25px rgb(221, 173, 84));
+    }
+
+    .hologram {
+      width: 100%;
+      border-radius: 12px;
+      opacity: 0.85;
+      transform: scale(1);
+      transition: 0.4s ease;
+      animation: holoFlicker 2s infinite ease-in-out;
+      box-shadow: 0 0 25px rgba(219, 159, 68, 0.818);
+    }
+
+    .hero-img:hover .hologram {
+      transform: scale(1.05);
+      opacity: 1;
+      /* box-shadow: 0 0 40px rgba(241, 114, 245, 0.8); */
+    }
+
+    /* Scan Lines */
+    .hero-img::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0,255,255,0.15),
+        rgba(0,255,255,0.15) 2px,
+        transparent 2px,
+        transparent 4px
+      );
+      border-radius: 12px;
+      pointer-events: none;
+      animation: scanMove 3s linear infinite;
+    }
+
+    /* Flicker */
+    @keyframes holoFlicker {
+      0% { opacity: 0.7; filter: brightness(0.9); }
+      50% { opacity: 0.9; filter: brightness(1.15); }
+      100% { opacity: 0.8; filter: brightness(1); }
+    }
+
+    /* Scan Motion */
+    @keyframes scanMove {
+      0% { transform: translateY(-20px); opacity: 0.2; }
+      50% { transform: translateY(20px); opacity: 0.3; }
+      100% { transform: translateY(-20px); opacity: 0.2; }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      background-color: #0a0a0a;
+    }
+
+    header {
+      background: rgba(9, 8, 8, 0.7);
+      padding: 15px 50px;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      backdrop-filter: blur(6px);
+      transition: top 0.4s ease;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar .logo {
+      font-size: 1.8rem;
+      color: #ffe58f;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #ffe58f;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 80px 10%;
+      min-height: 90vh;
+      background: linear-gradient(to right, rgba(22, 20, 21, 0.6), rgba(245, 249, 250, 0.6)),
+                  url("{% static 'images/vecteezy_celebration-backdrop-with-balloons-decorations-and-stage_32935414.jpg' %}") center/cover no-repeat;
+    }
+
+    .hero-text {
+      flex: 1;
+      color: #fff9dc;
+    }
+
+    .hero-text h1 {
+      font-size: 2.8rem;
+      line-height: 1.4;
+    }
+
+    .hero-text p {
+      font-size: 1.1rem;
+      margin-top: 15px;
+      color: #fff;
+    }
+
+    .hero-img {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .hero-img img {
+      width: 80%;
+      max-width: 480px;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff9dc;
+      font-size: 0.9rem;
+    }
+
+    .highlight-title {
+      text-align: center;
+      color: #ffe58f;
+      font-size: 2rem;
+      margin: 80px 0 40px 0;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(255, 229, 143, 0.6);
+    }
+
+
+    
+    .create-btn {
+      display: inline-block;
+      background: linear-gradient(90deg, #e90a8c, #53d9fe);
+      color: #fff;
+      padding: 12px 25px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .create-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(233, 10, 140, 0.5);
+    }
+
+    /* 🌟 Event Section Layout */
+    .event-section {
+      display: flex;
+      flex-direction: column;
+      gap: 120px;
+      padding: 60px 10%;
+      background: radial-gradient(circle at top, rgba(233,10,140,0.2), rgba(0,0,0,0.9) 70%);
+    }
+
+    .event-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+
+    .event-row:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .event-img {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .event-img img {
+      width: 200px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 25px;
+      box-shadow: 0 0 25px rgba(255, 229, 143, 0.15), 0 0 40px rgba(83, 217, 254, 0.15);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .event-img img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 40px rgba(233,10,140,0.4), 0 0 60px rgba(83,217,254,0.4);
+    }
+
+    .event-text {
+      flex: 1;
+      color: #fff;
+      max-width: 500px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px 10px;
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 10px rgba(255,255,255,0.05);
+    }
+
+    .event-text h2 {
+      color: #ffe58f;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .event-text p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #eaeaea;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .event-row {
+        flex-direction: column;
+      }
+
+      .event-img img {
+        width: 90%;
+        height: 300px;
+      }
+
+      .event-text {
+        text-align: center;
+      }
+    }
+
+.slide-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  animation: slideLeft 0.8s ease-out forwards;
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    html, body {
+      height: 100%;
+      width: 100%;
+      background-color: #0a0a0a;
+    }
+
+  
+/* ⭐ PREMIUM LOOK */
+.highlights-section {
+    width: 90%;
+    margin: 50px auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 35px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(255,255,255,0.4);
+}
+
+.section-subtitle {
+    text-align: center;
+    color: #c8f6ff;
+    font-size: 18px;
+    opacity: 0.9;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+}
+
+/* ⭐ CARD DESIGN */
+.highlight-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.15);
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    transition: 0.8s ease;
+}
+
+/* ⭐ IMAGE SIZE */
+.highlight-img {
+    width: 30%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    transition: 0.3s;
+}
+
+.highlight-img:hover {
+    transform: scale(1.05);
+}
+
+/* ⭐ TEXT */
+.highlight-text {
+    width: 50%;
+    color: white;
+    padding: 20px;
+}
+
+.highlight-text h3 {
+    font-size: 28px;
+    color: #00eaff;
+    margin-bottom: 10px;
+}
+
+.highlight-text p {
+    font-size: 18px;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+/* ⭐ ALTERNATE LAYOUTS */
+.highlight-card.left {
+    flex-direction: row;
+}
+
+.highlight-card.right {
+    flex-direction: row-reverse;
+}
+
+/* ⭐ SCROLL ANIMATION (hidden state) */
+.highlight-card {
+    opacity: 0;
+    transform: translateY(60px) scale(0.98);
+}
+
+/* ⭐ Visible when scrolled */
+.highlight-card.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Left slide */
+.highlight-card.left {
+    transform: translateX(-80px);
+}
+.highlight-card.left.show {
+    transform: translateX(0);
+}
+
+/* Right slide */
+.highlight-card.right {
+    transform: translateX(80px);
+}
+.highlight-card.right.show {
+    transform: translateX(0);
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 768px) {
+    .highlight-card {
+        flex-direction: column !important;
+        text-align: center;
+    }
+    .highlight-img {
+        width: 100%;
+        height: 200px;
+        margin-bottom: 20px;
+    }
+    .highlight-text {
+        width: 100%;
+    }
+}
+
+
+
+    
+    /* rest of your CSS from your original code */
+  </style>
+</head>
+<body> 
+  <section class="hero">
+    <div class="hero-text">
+      <h1 class="slide-left">WELCOME STUDENTS🎓</h1>
+      <h2>"Make Your Moments Unforgettable" ✨</h2>
+      <p>We create experiences that last forever — bringing your dream events to life with creativity, elegance, and joy.</p>
+      <a href="/faculty_home/" class="create-btn">faculty</a>
+    </div>
+    <div class="hero-img">
+      <div class="hologram" ><img src="{% static 'images/evebt12.jpg' %}" alt="Event Celebration">
+    </div>
+  </section> 
+
+
+
+  <!-- <<<<<<<<<<<<events highlights>>>>>>>>>>> -->
+
+<div class="highlights-section">
+    <h2 class="section-title">Event Highlights</h2>
+    <p class="section-subtitle">Celebrating Moments, Memories & Milestones</p>
+
+    <!-- CARD 1 -->
+    <div class="highlight-card left">
+        <img src="{% static 'images/events1.jpg' %}" alt="Event Celebration" class="highlight-img">
+        <div class="highlight-text">
+            <h3>Sports Day 2024</h3>
+            <p>Students showed incredible sportsmanship with energetic participation in relay races, football, and athletic events.</p>
+        </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="highlight-card right">
+        <img src="{% static 'images/events1.jpg' %}" alt="Event Celebration" class="highlight-img">
+        <div class="highlight-text">
+            <h3>Tech Fest 2024</h3>
+            <p>Full of innovation! Students created amazing projects, including robots, smart systems, and AI-based tools.</p>
+        </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="highlight-card left">
+        <img src="{% static 'images/events1.jpg' %}" alt="Event Celebration" class="highlight-img">
+        <div class="highlight-text">
+            <h3>Cultural Night</h3>
+            <p>A vibrant evening filled with dance, music, drama, and cultural performances representing multiple states.</p>
+        </div>
+    </div>
+
+    <!-- CARD 4 -->
+    <div class="highlight-card right">
+        <img src="{% static 'images/events1.jpg' %}" alt="Event Celebration" class="highlight-img">
+        <div class="highlight-text">
+            <h3>Annual Marathon</h3>
+            <p>More than 500 students participated with enthusiasm, spreading awareness about fitness and healthy lifestyle.</p>
+        </div>
+    </div>
+
+    <!-- CARD 5 -->
+    <div class="highlight-card left">
+        <img src="{% static 'images/events1.jpg' %}" class="highlight-img">
+        <div class="highlight-text">
+            <h3>Science Exhibition</h3>
+            <p>Students showcased futuristic experiments and interactive models that amazed everyone.</p>
+        </div>
+    </div>
+
+    <!-- CARD 6 -->
+    <div class="highlight-card right">
+        <img src="{% static 'images/events1.jpg' %}" class="highlight-img">
+        <div class="highlight-text">
+            <h3>Music Fiesta</h3>
+            <p>A soulful evening filled with live band performances, singing, and enchanting melodies.</p>
+        </div>
+    </div>
+
+</div>
+
+ 
+<!-- ⭐ SCROLL ANIMATION SCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const cards = document.querySelectorAll('.highlight-card');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+            }
+        });
+    }, { threshold: 0.2 });
+
+    cards.forEach(card => observer.observe(card));
+});
+</script>
+
+
+
+
+
+
+
+
+<!-- <<<<<<<<<<<<<<<<<<<<<events highlights>>>>>>>>>>>>>> -->
+
+
+
+  
+  <footer>
+    &copy; 2025 Event Management System. All Rights Reserved.
+  </footer>
+
+  <script>
+    let lastScrollTop = 0;
+    const header = document.getElementById("mainHeader");
+    window.addEventListener("scroll", () => {
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+      if (currentScroll > lastScrollTop) {
+        header.style.top = "-80px";
+      } else {
+        header.style.top = "0";
+      }
+      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+    });
+  </script>
+</body>
+</html>

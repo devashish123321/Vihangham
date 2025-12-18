@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Night Pass</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #4c4b4f, #18181b, #4b4b5b);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, #ff416c, #c5bbb9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px 50px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 30px rgba(178, 86, 192, 0.5);
+            display: flex;
+            flex-direction: column;
+            width: 350px;
+        }
+
+        input {
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            box-shadow: 0 0 10px #ff416c, 0 0 20px #ff4b2b;
+        }
+
+        button {
+            padding: 12px 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #121010, #f2599b);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 65, 108, 0.6), 0 0 15px rgba(255, 75, 43, 0.5);
+        }
+
+        .home-btn {
+            background: linear-gradient(90deg, #111618, #ec798e, #ac6889);
+        }
+
+        .home-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(32, 58, 67, 0.6), 0 0 15px rgba(44, 83, 100, 0.5);
+        }
+
+        @media (max-width: 400px) {
+            form {
+                width: 90%;
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        <h2>Generate Night Pass</h2>
+        Name: <input type="text" name="name" required>
+        Email: <input type="email" name="email" required>
+        <button type="submit">Get QR</button>
+
+        <!-- Home Button -->
+        <a href="/home/"><button type="button" class="home-btn">BACK</button></a>
+    </form>
+</body>
+</html>

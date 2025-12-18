@@ -1,0 +1,668 @@
+ 
+ {% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty Dashboard | Event Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { 
+      margin:0; 
+      padding:0; 
+      box-sizing:border-box; 
+      font-family:'Poppins', sans-serif; 
+    }
+ 
+ 
+
+
+    :root {
+      --primary: #f6eef3;
+      --secondary: #8c1582;
+      --accent: #ffcc00;
+      --dark: #0a0a0a;
+      --dark-light: #1a1a1a;
+      --text: #fff;
+      --text-light: #fff9dc;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      background-color: var(--dark);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(233, 10, 140, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(83, 217, 254, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(255, 204, 0, 0.05) 0%, transparent 50%);
+      z-index: -1;
+    }
+
+    header {
+      background: rgba(9, 8, 8, 0.8);
+      padding: 15px 50px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(11, 10, 10, 0.1);
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 80px 10%;
+      min-height: 90vh;
+      background: linear-gradient(135deg, rgba(30, 28, 29, 0.8) 0%, rgba(63, 59, 59, 0.9) 100%),
+                  url("{% static 'images/vecteezy_celebration-backdrop-with-balloons-decorations-and-stage_32935414.jpg' %}") center/cover no-repeat;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 70% 30%, rgba(233, 10, 140, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 30% 70%, rgba(83, 217, 254, 0.1) 0%, transparent 50%);
+      z-index: 0;
+    }
+
+    .hero-text {
+      flex: 1;
+      color: var(--text-light);
+      z-index: 1;
+      position: relative;
+    }
+
+    .hero-text h1 {
+      font-size: 3.2rem;
+      line-height: 1.3;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, var(--accent), var(--text-light));
+      -webkit-background-clip: text;
+      background-clip: text;   
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
+    }
+
+    .hero-text p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: var(--text);
+      max-width: 600px;
+      line-height: 1.6;
+    }
+
+    .hero-img {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      z-index: 1;
+      position: relative;
+    }
+
+    .hero-img img {
+      width: 85%;
+      max-width: 500px;
+      border-radius: 16px;
+      box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(233, 10, 140, 0.3),
+        0 0 50px rgba(83, 217, 254, 0.2);
+      transition: transform 0.5s ease;
+    }
+
+    .hero-img img:hover {
+      transform: scale(1.03);
+    }
+
+    /* Dashboard Navigation */
+    .dashboard {
+      display: flex;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      margin: 40px 10%;
+      overflow: hidden;
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .dashboard a {
+      flex: 1;
+      padding: 16px 24px;
+      text-align: center;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      font-size: 1.05rem;
+      transition: all 0.4s ease;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dashboard a:last-child {
+      border-right: none;
+    }
+
+    .dashboard a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: left 0.4s ease;
+      z-index: -1;
+    }
+
+    .dashboard a:hover::before {
+      left: 0;
+    }
+
+    .dashboard a:hover {
+      color: var(--dark);
+      font-weight: 600;
+      transform: translateY(-2px);
+    }
+
+    .dashboard a i {
+      margin-right: 8px;
+      font-size: 1.1rem;
+    }
+
+    /* Create Button */
+    .create-btn {
+      display: inline-flex;
+      align-items: center;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: var(--text);
+      padding: 14px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.4s ease;
+      box-shadow: 
+        0 4px 15px rgba(233, 10, 140, 0.3),
+        0 0 20px rgba(235, 242, 244, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .create-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .create-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 
+        0 7px 20px rgba(233, 10, 140, 0.5),
+        0 0 25px rgba(83, 217, 254, 0.4);
+    }
+
+    .create-btn:hover::before {
+      left: 100%;
+    }
+
+    .create-btn i {
+      margin-right: 10px;
+    }
+
+    /* Animations */
+    .slide-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      animation: slideLeft 0.8s ease-out forwards;
+    }
+
+    @keyframes slideLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .slide-hero {
+      opacity: 0;
+      transform: translateY(-40px) scale(0.95);
+      animation: slideHero 0.9s ease-out forwards;
+    }
+
+    @keyframes slideHero {
+      0% {
+        opacity: 0;
+        transform: translateY(-40px) scale(0.95);
+      }
+      60% {
+        opacity: 1;
+        transform: translateY(5px) scale(1.02);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Title Styling */
+    .highlight-title {
+      text-align: center;
+      color: var(--accent);
+      font-size: 2.5rem;
+      margin: 60px 0 30px 0;
+      letter-spacing: 1px;
+      text-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .highlight-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+      box-shadow: 0 0 10px rgba(233, 10, 140, 0.5);
+    }
+
+    /* Stats Section */
+    .stats-container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin: 40px 10%;
+      gap: 20px;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 25px;
+      text-align: center;
+      flex: 1;
+      min-width: 200px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+      border-color: rgba(233, 10, 140, 0.3);
+    }
+
+    .stat-card i {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;   
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-card h3 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: var(--accent);
+    }
+
+    .stat-card p {
+      color: var(--text-light);
+      font-size: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.7);
+      color: var(--text-light);
+      font-size: 0.95rem;
+      margin-top: 60px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .hero {
+        padding: 60px 5%;
+      }
+      
+      .hero-text h1 {
+        font-size: 2.6rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 5%;
+      }
+      
+      .hero-text {
+        margin-bottom: 40px;
+      }
+      
+      .hero-text h1 {
+        font-size: 2.2rem;
+      }
+      
+      .dashboard {
+        flex-direction: column;
+        border-radius: 12px;
+        margin: 30px 5%;
+      }
+      
+      .dashboard a {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 18px 24px;
+      }
+      
+      .dashboard a:last-child {
+        border-bottom: none;
+      }
+      
+      .stats-container {
+        margin: 30px 5%;
+      }
+      
+      .highlight-title {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-text h1 {
+        font-size: 1.8rem;
+      }
+      
+      .hero-text p {
+        font-size: 1rem;
+      }
+      
+      .create-btn {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+      }
+      
+      .highlight-title {
+        font-size: 1.6rem;
+      }
+    }
+
+     
+/* ⭐ MAIN SECTION */
+.highlights-section {
+    width: 90%;
+    margin: 80px auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* ⭐ Floating Background Lights */
+.highlights-section::before,
+.highlights-section::after {
+    content: "";
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(#00eaff55, transparent);
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: -1;
+}
+
+.highlights-section::before { top: -40px; left: -80px; }
+.highlights-section::after { bottom: 0; right: -50px; }
+
+/* ⭐ Titles */
+.title {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+    text-shadow: 0 0 12px #00eaff;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 18px;
+    color: #b0faff;
+    margin-bottom: 50px;
+    opacity: 0.9;
+}
+
+/* ⭐ Card Outer */
+.highlight-card {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 25px;
+    padding: 25px;
+    margin-bottom: 45px;
+    border: 1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 0 25px rgba(0,0,0,0.3);
+    transition: 0.4s ease;
+    opacity: 0;
+    transform: translateY(60px);
+}
+
+/* ⭐ Hover Lift Effect */
+.highlight-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 0 35px rgba(0,255,255,0.4);
+}
+
+/* ⭐ Image Styling */
+.img-box {
+    width: 35%;
+}
+
+.img-box img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 0 18px rgba(0,0,0,0.5);
+    transition: 0.3s ease;
+}
+
+.img-box img:hover {
+    transform: scale(1.05);
+}
+
+/* ⭐ Text Content */
+.content {
+    width: 55%;
+}
+
+.content h3 {
+    font-size: 28px;
+    color: #00eaff;
+    margin-bottom: 10px;
+    text-shadow: 0 0 6px #00ffffaa;
+}
+
+.content p {
+    color: #fff;
+    opacity: 0.9;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+/* ⭐ Reverse Layout */
+.highlight-card.reverse {
+    flex-direction: row-reverse;
+}
+
+/* ⭐ Scroll Animation */
+.highlight-card.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ⭐ Responsive */
+@media (max-width: 780px) {
+    .highlight-card,
+    .highlight-card.reverse {
+        flex-direction: column;
+        text-align: center;
+    }
+    .img-box {
+        width: 100%;
+    }
+    .content {
+        width: 100%;
+    }
+}
+   </style>
+</head>
+<body>  
+    
+  <section class="dashboard">
+  <a href="{% url 'index' %}" class="create-btn">
+    <i class="fa-solid fa-arrow-left"></i> BACK
+</a>
+
+
+    <a href="/faculty_home/"><i class="fas fa-home"></i> Home</a>
+    <a href="/create_event/"><i class="fas fa-plus-circle"></i> Create Event</a>
+    <a href="/faculty_show_event/"><i class="fas fa-calendar-alt"></i> Events</a>
+    <a href="/participation/"><i class="fas fa-users"></i>Participations</a>
+    <a href="/enter_winners/"><i class="fas fa-users"></i> enter winners</a>
+  </section> 
+  
+  <section class="hero">
+    <div class="hero-text">
+      <h1 class="slide-hero">WELCOME FACULTY</h1>
+      <h2>"Mange Whole Event"🎉</h2>
+      <p>Manage events, registrations, and schedules with ease. Create experiences that leave a lasting impression.</p>
+      <a href="/home/" class="create-btn">
+        <i class="fas fa-home"></i> Home
+      </a>
+    </div>
+    
+    <div class="hero-img">
+      <img src="{% static 'images/events1.jpg' %}" alt="Event Celebration">
+    </div>
+  </section>
+ 
+
+<!-- <<<<<<<<<<<<< events highlight>>>>>>>>>> -->
+<!-- ⭐ EVENTS HIGHLIGHTS SECTION -->
+
+
+
+<div class="highlights-section">
+    <h2 class="title">Event Highlights</h2>
+    <p class="subtitle">A Journey Through Our Most Memorable Moments</p>
+
+    <div class="highlight-card">
+        <div class="img-box">
+            <img src="{% static 'images/events1.jpg' %}" alt="">
+        </div>
+        <div class="content">
+            <h3>Sports Day 2024</h3>
+            <p>Energetic performances, relay races, football, and more — pure sportsmanship.</p>
+        </div>
+    </div>
+
+    <div class="highlight-card reverse">
+        <div class="img-box">
+            <img src="{% static 'images/events1.jpg' %}" alt="">
+        </div>
+        <div class="content">
+            <h3>Tech Fest 2024</h3>
+            <p>Robots, AI projects, smart systems — Innovation at its peak.</p>
+        </div>
+    </div>
+
+    <div class="highlight-card">
+        <div class="img-box">
+            <img src="{% static 'images/events1.jpg' %}" alt="">
+        </div>
+        <div class="content">
+            <h3>Cultural Night</h3>
+            <p>Dance, music, drama — a colorful celebration of diverse cultures.</p>
+        </div>
+    </div>
+
+    <div class="highlight-card reverse">
+        <div class="img-box">
+            <img src="{% static 'images/events1.jpg' %}" alt="">
+        </div>
+        <div class="content">
+            <h3>Annual Marathon</h3>
+            <p>500+ students running for fitness, energy, and community spirit.</p>
+        </div>
+    </div>
+</div>
+
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const cards = document.querySelectorAll(".highlight-card");
+
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add("show");
+        });
+    }, { threshold: 0.2 });
+
+    cards.forEach(card => obs.observe(card));
+});
+</script>
+ 
+
+ 
+
+  <footer>
+    &copy; 2025 Event Management System. All Rights Reserved.
+  </footer>
+
+</body>
+</html> 
+ 

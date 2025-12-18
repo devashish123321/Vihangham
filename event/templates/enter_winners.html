@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Enter Winners</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* -------- GLOBAL -------- */
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top right, #0c0c0c 0%, #1a1a2e 40%, #16213e 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Floating glow */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(233,10,140,0.15), transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(83,217,254,0.15), transparent 50%);
+  z-index: -1;
+}
+
+/* -------- CARD -------- */
+.winner-card {
+  background: rgba(20, 20, 35, 0.85);
+  padding: 35px 40px;
+  border-radius: 18px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(255,255,255,0.08);
+  position: relative;
+  backdrop-filter: blur(12px);
+}
+
+/* Top neon line */
+.winner-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  width: 100%;
+  background: linear-gradient(90deg, #ff3191, #27d7ff);
+  border-radius: 18px 18px 0 0;
+  box-shadow: 0 0 12px rgba(255,49,145,0.7);
+}
+
+/* -------- TITLE -------- */
+.title {
+  text-align: center;
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  background: linear-gradient(90deg, #ffcc00, #ffd700);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 15px rgba(255,215,0,0.4);
+}
+
+/* -------- FORM -------- */
+.form-group {
+  margin-bottom: 22px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #ddd;
+}
+
+input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(0,0,0,0.35);
+  color: white;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s;
+}
+
+input:focus {
+  border-color: #53d9fe;
+  box-shadow: 0 0 12px rgba(83,217,254,0.4);
+}
+
+/* -------- BUTTONS -------- */
+.btn-group {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.create-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #868184, #ef52d2);
+  color: #fff;
+  padding: 12px 0;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 4px 15px rgba(83, 217, 254, 0.3),
+    0 0 20px rgba(233, 10, 140, 0.3);
+}
+
+.create-btn i {
+  margin-right: 8px;
+}
+
+.create-btn:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 8px 25px rgba(233, 10, 140, 0.5),
+    0 0 30px rgba(83, 217, 254, 0.5);
+}
+
+.back-btn {
+  background: linear-gradient(90deg, #444, #4dbdf5);
+  box-shadow: none;
+  text-decoration: none;
+}
+
+.back-btn:hover {
+  background: linear-gradient(90deg, #666, #999);
+}
+
+/* -------- RESPONSIVE -------- */
+@media (max-width: 600px) {
+  .winner-card {
+    padding: 25px;
+  }
+  .btn-group {
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="winner-card">
+
+  <h2 class="title">🏆 Winners – {{ event.title }}</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label>🥇 First Winner</label>
+      <input type="text" name="first_winner" value="{{ winner.first_winner }}">
+    </div>
+
+    <div class="form-group">
+      <label>🥈 Second Winner</label>
+      <input type="text" name="second_winner" value="{{ winner.second_winner }}">
+    </div>
+
+    <div class="form-group">
+      <label>🥉 Third Winner</label>
+      <input type="text" name="third_winner" value="{{ winner.third_winner }}">
+    </div>
+
+    <div class="btn-group">
+      <button type="submit" class="create-btn">
+        <i class="fas fa-trophy"></i> Save Winners
+      </button>
+
+      <a href="{% url 'participation' %}?event_id={{ event.id }}"
+         class="create-btn back-btn">
+        <i class="fas fa-arrow-left"></i> Back
+
+
+
+      </a>
+    </div>
+
+  </form>
+
+</div>
+
+</body>
+</html>

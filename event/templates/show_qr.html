@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Night Pass QR</title>
+</head>
+
+<body>
+    <h2>Night Pass Generated</h2>
+
+    <p><b>Name:</b> {{ pass.name }}</p>
+    <p><b>Email:</b> {{ pass.email }}</p>
+
+    <img src="/static/{{ pass.qr_code_image }}" width="250">
+
+    <p>Scan this QR during entry.</p>
+</body>
+</html>

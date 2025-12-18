@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verification Result</title>
+</head>
+<body>
+
+{% if night_pass.verified %}
+    <h1 style="color: green;">✔ VERIFIED</h1>
+{% else %}
+    <h1 style="color: red;">✖ NOT VERIFIED</h1>
+{% endif %}
+
+<p>Name: {{ night_pass.name }}</p>
+<p>Email: {{ night_pass.email }}</p>
+
+</body>
+</html>

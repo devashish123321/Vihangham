@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faculty Login | Vyangam</title>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #050b18, #0b1324, #081b29);
+    color: #fff;
+    position: relative;
+  }
+
+  /* Neon aurora waves */
+  body::before {
+    content: "";
+    position: absolute;
+    width: 220%;
+    height: 220%;
+    top: -55%;
+    left: -55%;
+    background: conic-gradient(from 0deg, #00eaff, #7b2cbf, #ff0077, #00eaff);
+    filter: blur(200px);
+    opacity: 0.22;
+    animation: rotateGlow 14s linear infinite;
+    z-index: -1;
+  }
+
+  @keyframes rotateGlow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* 🌟 Card */
+  .login-card {
+    width: 380px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(18px);
+    border-radius: 22px;
+    padding: 50px 40px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5),
+                0 0 50px rgba(0,234,255,0.25);
+    animation: floating 4s ease-in-out infinite;
+  }
+
+  @keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* Title */
+  h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    background: linear-gradient(90deg, #00eaff, #9c27b0, #ff0077);
+    -webkit-background-clip: text;
+      background-clip: text; 
+    color: transparent;
+    text-shadow: 0 0 25px rgba(0,234,255,0.4);
+  }
+
+  /* Inputs */
+  input, select {
+    width: 100%;
+    padding: 14px;
+    margin: 12px 0;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s ease;
+  }
+
+  input::placeholder {
+    color: #d5d5d5;
+  }
+
+  select {
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  select option {
+    color: #000;
+  }
+
+  input:focus, select:focus {
+    border-color: #00eaff;
+    box-shadow: 0 0 15px rgba(0,234,255,0.6);
+    background: rgba(255,255,255,0.12);
+  }
+
+  /* Button */
+  .login-btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: linear-gradient(90deg, #00eaff, #9c27b0, #ff0077);
+    color: white;
+    box-shadow: 0 0 25px rgba(0,234,255,0.4);
+    transition: all 0.4s ease;
+  }
+
+  .login-btn:hover {
+    transform: scale(1.06);
+    box-shadow: 0 0 40px rgba(0,234,255,0.9),
+                0 0 70px rgba(156,39,176,0.6);
+    letter-spacing: 1px;
+  }
+
+  /* Forgot */
+  .forgot {
+    display: block;
+    margin-top: 18px;
+    text-align: center;
+    color: #b3e5fc;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+
+  .forgot:hover {
+    color: #fff;
+    text-shadow: 0 0 10px #00eaff;
+  }
+
+  /* Floating particles */
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #00eaff;
+    opacity: 0.5;
+    animation: rise linear infinite;
+  }
+
+  @keyframes rise {
+    from { transform: translateY(100vh); opacity: 0.3; }
+    to { transform: translateY(-10vh); opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Particles -->
+<div class="particle" style="left: 10%; animation-duration: 9s;"></div>
+<div class="particle" style="left: 30%; animation-duration: 7s;"></div>
+<div class="particle" style="left: 50%; animation-duration: 8s;"></div>
+<div class="particle" style="left: 70%; animation-duration: 10s;"></div>
+<div class="particle" style="left: 90%; animation-duration: 11s;"></div>
+
+<div class="login-card">
+    <h2>Faculty Login</h2>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <input type="text" name="name" placeholder="Enter Faculty Name" required>
+
+      <select name="department" required>
+        <option value="">Select Department</option>
+        <option>Computer Science</option>
+        <option>Information Technology</option>
+        <option>Electronics</option>
+        <option>Mechanical</option>
+        <option>Civil</option>
+        <option>AI & Data Science</option>
+        <option>Electrical</option>
+      </select>
+
+      <input type="email" name="email" placeholder="Enter Faculty Email" required>
+      <input type="password" name="password" placeholder="Common Password (faculty123)" required>
+
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+
+    <a href="#" class="forgot">Forgot Password?</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<div id="home">
+  <header id="mainHeader">
+    <nav class="navbar">
+      <h1 class="logo">Vyangam</h1>
+      <ul class="nav-links">
+        <li><a href="/home/">Home</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/events/">Events</a></li>
+        <li><a href="/register-event/">Register Event</a></li>
+      </ul>
+    </nav>
+  </header>
+</div>
+
+<style>
+/* Header and Navbar */
+/* Navbar / Header CSS */
+header {
+  background: rgba(9, 8, 8, 0.7);
+  padding: 15px 50px;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 5;
+  backdrop-filter: blur(6px);
+  transition: top 0.4s ease;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar .logo {
+  font-size: 1.8rem;
+  color: #ffe58f;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #ffe58f;
+}
+
+/* Sticky hide/show effect on scroll */
+#mainHeader {
+  transition: top 0.4s ease;
+}

@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VYANGAM | Enter the Experience</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;800;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+<style>
+  :root {
+    --primary-gold: #FFD700;
+    --secondary-gold: #FFAA00;
+    --primary-blue: #00D4FF;
+    --secondary-blue: #0099CC;
+    --dark-bg: #0A0A1A;
+    --darker-bg: #050510;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-light: #FFFFFF;
+    --text-glow: rgba(255, 255, 255, 0.8);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 50%, #151530 100%);
+    color: var(--text-light);
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Cosmic Background */
+  .cosmic-bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .nebula {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 20%, rgba(120, 119, 198, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(255, 204, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(255, 64, 129, 0.08) 0%, transparent 50%);
+    animation: nebulaPulse 20s infinite alternate ease-in-out;
+  }
+
+  @keyframes nebulaPulse {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.05); opacity: 1; }
+  }
+
+  /* Stars */
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle var(--duration) infinite var(--delay) alternate;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+
+  /* Shooting Stars */
+  .shooting-star {
+    position: absolute;
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary-gold));
+    transform: rotate(-45deg);
+    animation: shooting var(--duration) infinite var(--delay) linear;
+  }
+
+  @keyframes shooting {
+    0% {
+      transform: translateX(-100px) translateY(-100px) rotate(-45deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(calc(100vw + 100px)) translateY(calc(100vh + 100px)) rotate(-45deg);
+      opacity: 0;
+    }
+  }
+
+  /* Main Container */
+  .main-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    overflow: hidden;
+  }
+
+  /* Animated Logo */
+  .logo-container {
+    text-align: center;
+    margin-bottom: 60px;
+    perspective: 1000px;
+  }
+
+  .logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 5.5rem;
+    font-weight: 900;
+    background: linear-gradient(90deg, 
+      var(--primary-gold) 0%, 
+      var(--secondary-gold) 25%, 
+      #FF6B6B 50%, 
+      var(--primary-blue) 75%, 
+      var(--secondary-blue) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 
+      0 0 30px rgba(255, 215, 0, 0.5),
+      0 0 60px rgba(255, 215, 0, 0.3),
+      0 0 90px rgba(255, 215, 0, 0.1);
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    transform-style: preserve-3d;
+    animation: logoFloat 8s ease-in-out infinite;
+  }
+
+  @keyframes logoFloat {
+    0%, 100% { transform: translateY(0) rotateX(5deg); }
+    50% { transform: translateY(-20px) rotateX(-5deg); }
+  }
+
+  .tagline {
+    font-size: 1.4rem;
+    color: var(--text-glow);
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .tagline::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
+  }
+
+  /* Cards Container */
+  .cards-container {
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+    margin: 40px 0;
+    width: 100%;
+    max-width: 1400px;
+  }
+
+  /* Portal Cards */
+  .portal-card {
+    width: 420px;
+    min-height: 520px;
+    background: linear-gradient(145deg, 
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.02) 100%);
+    border-radius: 30px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+  }
+
+  .portal-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      transparent, 
+      rgba(255, 255, 255, 0.1), 
+      transparent);
+    transition: 0.8s;
+  }
+
+  .portal-card:hover::before {
+    left: 100%;
+  }
+
+  .portal-card:hover {
+    transform: translateY(-20px) scale(1.02);
+    box-shadow: 
+      0 40px 60px rgba(0, 0, 0, 0.4),
+      0 0 0 2px rgba(var(--glow-color), 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  /* Student Card */
+  .student-card {
+    --glow-color: 255, 215, 0;
+  }
+
+  .student-card:hover {
+    border-color: rgba(var(--glow-color), 0.3);
+  }
+
+  /* Faculty Card */
+  .faculty-card {
+    --glow-color: 0, 212, 255;
+  }
+
+  .faculty-card:hover {
+    border-color: rgba(var(--glow-color), 0.3);
+  }
+
+  /* Card Header */
+  .card-header {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .portal-icon {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 0 auto 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    position: relative;
+    transition: all 0.5s ease;
+  }
+
+  .student-card .portal-icon {
+    background: linear-gradient(135deg, 
+      rgba(255, 215, 0, 0.2) 0%, 
+      rgba(255, 170, 0, 0.1) 100%);
+    color: var(--primary-gold);
+    box-shadow: 
+      0 10px 30px rgba(255, 215, 0, 0.2),
+      inset 0 0 20px rgba(255, 215, 0, 0.1);
+  }
+
+  .faculty-card .portal-icon {
+    background: linear-gradient(135deg, 
+      rgba(0, 212, 255, 0.2) 0%, 
+      rgba(0, 153, 204, 0.1) 100%);
+    color: var(--primary-blue);
+    box-shadow: 
+      0 10px 30px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.1);
+  }
+
+  .portal-card:hover .portal-icon {
+    transform: scale(1.1) rotateY(180deg);
+  }
+
+  .portal-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, var(--title-color), #FFFFFF);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .student-card .portal-title {
+    --title-color: var(--primary-gold);
+  }
+
+  .faculty-card .portal-title {
+    --title-color: var(--primary-blue);
+  }
+
+  .portal-subtitle {
+    font-size: 1rem;
+    color: var(--text-glow);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  /* Card Content */
+  .card-content {
+    margin-bottom: 40px;
+  }
+
+  .features-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+  }
+
+  .feature-item:hover {
+    background: rgba(255, 255, 255, 0.07);
+    transform: translateX(10px);
+  }
+
+  .feature-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 1.2rem;
+  }
+
+  .student-card .feature-icon {
+    background: rgba(255, 215, 0, 0.15);
+    color: var(--primary-gold);
+  }
+
+  .faculty-card .feature-icon {
+    background: rgba(0, 212, 255, 0.15);
+    color: var(--primary-blue);
+  }
+
+  .feature-text {
+    flex: 1;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  /* Action Button */
+  .action-btn {
+    width: 100%;
+    padding: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .student-btn {
+    background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+    color: #000;
+    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+  }
+
+  .faculty-btn {
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    color: #000;
+    box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+  }
+
+  .action-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .action-btn:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  .action-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .action-btn:active {
+    transform: translateY(-2px);
+  }
+
+  .btn-icon {
+    font-size: 1.4rem;
+    transition: transform 0.3s ease;
+  }
+
+  .action-btn:hover .btn-icon {
+    transform: translateX(5px);
+  }
+
+  /* Floating Elements */
+  .floating-elements {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .floating-element {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.1;
+    animation: floatElement 20s infinite linear;
+  }
+
+  @keyframes floatElement {
+    0% {
+      transform: translateY(100vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.1;
+    }
+    90% {
+      opacity: 0.1;
+    }
+    100% {
+      transform: translateY(-100px) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 60px;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+  }
+
+  .copyright {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+  }
+
+  .version {
+    color: var(--primary-gold);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .powered-by {
+    color: var(--primary-blue);
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .cards-container {
+      gap: 30px;
+    }
+    
+    .portal-card {
+      width: 380px;
+      min-height: 500px;
+    }
+    
+    .logo {
+      font-size: 4.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .cards-container {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .portal-card {
+      width: 90%;
+      max-width: 500px;
+    }
+    
+    .logo {
+      font-size: 3.5rem;
+    }
+    
+    .portal-title {
+      font-size: 2rem;
+    }
+    
+    .footer-content {
+      flex-direction: column;
+      text-align: center;
+      gap: 10px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .logo {
+      font-size: 2.8rem;
+    }
+    
+    .portal-card {
+      padding: 30px 20px;
+      min-height: 450px;
+    }
+    
+    .portal-icon {
+      width: 100px;
+      height: 100px;
+      font-size: 3rem;
+    }
+    
+    .action-btn {
+      padding: 18px;
+      font-size: 1.1rem;
+    }
+  }
+</style>
+</head>
+
+<body>
+  <!-- Cosmic Background -->
+  <div class="cosmic-bg">
+    <div class="nebula"></div>
+    <div id="stars"></div>
+    <div id="shooting-stars"></div>
+  </div>
+
+  <!-- Floating Elements -->
+  <div class="floating-elements" id="floating-elements"></div>
+
+  <!-- Main Content -->
+  <div class="main-container">
+    <!-- Logo -->
+    <div class="logo-container">
+      <div class="logo animate__animated animate__fadeInDown">
+        VYANGAM
+      </div>
+      <div class="tagline animate__animated animate__fadeIn animate__delay-1s">
+        Where Moments Become Memories
+      </div>
+    </div>
+
+    <!-- Portal Cards -->
+    <div class="cards-container">
+      <!-- Student Portal -->
+      <div class="portal-card student-card animate__animated animate__fadeInLeft animate__delay-1s">
+        <div class="card-header">
+          <div class="portal-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h2 class="portal-title">Student Portal</h2>
+          <div class="portal-subtitle">Unleash Your Potential</div>
+        </div>
+        
+        <div class="card-content">
+          <ul class="features-list">
+            <li class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-calendar-check"></i>
+              </div>
+              <div class="feature-text">
+                Register for exciting events & competitions
+              </div>
+            </li>
+            <li class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-trophy"></i>
+              </div>
+              <div class="feature-text">
+                Track your achievements & certificates
+              </div>
+            </li>
+            <li class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="feature-text">
+                Connect with peers & form teams
+              </div>
+            </li>
+            <li class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-bell"></i>
+              </div>
+              <div class="feature-text">
+                Get real-time notifications & updates
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <button class="action-btn student-btn" onclick="enterPortal('student')">
+          <i class="fas fa-rocket btn-icon"></i>
+          Launch Student Portal
+        </button>
+      </div>
+
+      <!-- Faculty Portal -->
+      <div class="portal-card faculty-card animate__animated animate__fadeInRight animate__delay-1s">
+        <div class="card-header">
+          <div class="portal-icon">
+            <i class="fas fa-chalkboard-teacher"></i>
+          </div>
+          <h2 class="portal-title">Faculty Portal</h2>
+          <div class="portal-subtitle">Shape the Experience</div>
+        </div>
+        
+        <div class="card-content">
+          <ul class="features-list">
+            <li class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-tasks"></i>
+              </div>
+              <div class="feature-text">
+                Create & manage events seamlessly
+              </div>
+            </li>
+            <li class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <div class="feature-text">
+                Monitor participation & analytics
+              </div>
+            </li>
+            <li class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-award"></i>
+              </div>
+              <div class="feature-text">
+                Evaluate & declare winners
+              </div>
+            </li>
+            <li class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-cogs"></i>
+              </div>
+              <div class="feature-text">
+                Advanced administrative controls
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <button class="action-btn faculty-btn" onclick="enterPortal('faculty')">
+          <i class="fas fa-user-shield btn-icon"></i>
+          Access Faculty Portal
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer animate__animated animate__fadeInUp animate__delay-2s">
+      <div class="footer-content">
+        <div class="copyright">
+          © 2024 VYANGAM Experience Platform
+        </div>
+        <div class="version">
+          v3.0.1 | Cosmic Edition
+        </div>
+        <div class="powered-by">
+          <i class="fas fa-bolt"></i> Powered by Innovation
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Create stars
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      const starCount = 150;
+      
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        
+        const size = Math.random() * 3 + 1;
+        const left = Math.random() * 100;
+        const top = Math.random() * 100;
+        const duration = Math.random() * 5 + 3;
+        const delay = Math.random() * 5;
+        
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${left}vw`;
+        star.style.top = `${top}vh`;
+        star.style.setProperty('--duration', `${duration}s`);
+        star.style.setProperty('--delay', `${delay}s`);
+        
+        starsContainer.appendChild(star);
+      }
+    }
+
+    // Create shooting stars
+    function createShootingStars() {
+      const container = document.getElementById('shooting-stars');
+      const count = 8;
+      
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'shooting-star';
+        
+        const top = Math.random() * 100;
+        const duration = Math.random() * 3 + 2;
+        const delay = Math.random() * 10;
+        
+        star.style.top = `${top}vh`;
+        star.style.setProperty('--duration', `${duration}s`);
+        star.style.setProperty('--delay', `${delay}s`);
+        
+        container.appendChild(star);
+      }
+    }
+
+    // Create floating elements
+    function createFloatingElements() {
+      const container = document.getElementById('floating-elements');
+      const elements = ['⭐', '✨', '🎓', '🏆', '🚀', '💫', '🎯', '🌟'];
+      const count = 15;
+      
+      for (let i = 0; i < count; i++) {
+        const element = document.createElement('div');
+        element.className = 'floating-element';
+        
+        const size = Math.random() * 40 + 20;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 30 + 20;
+        const delay = Math.random() * 20;
+        const elementChar = elements[Math.floor(Math.random() * elements.length)];
+        
+        element.style.fontSize = `${size}px`;
+        element.style.left = `${left}vw`;
+        element.style.animationDuration = `${duration}s`;
+        element.style.animationDelay = `${delay}s`;
+        element.textContent = elementChar;
+        
+        container.appendChild(element);
+      }
+    }
+
+    // Portal entrance effect
+    function enterPortal(type) {
+      const portalCard = event.currentTarget.closest('.portal-card');
+      const button = event.currentTarget;
+      
+      // Add ripple effect
+      const ripple = document.createElement('div');
+      ripple.style.position = 'absolute';
+      ripple.style.width = '10px';
+      ripple.style.height = '10px';
+      ripple.style.borderRadius = '50%';
+      ripple.style.background = 'rgba(255, 255, 255, 0.8)';
+      ripple.style.transform = 'translate(-50%, -50%)';
+      ripple.style.left = `${event.offsetX}px`;
+      ripple.style.top = `${event.offsetY}px`;
+      ripple.style.animation = 'ripple 0.6s linear';
+      
+      button.appendChild(ripple);
+      
+      // Create portal warp effect
+      const warp = document.createElement('div');
+      warp.style.position = 'fixed';
+      warp.style.top = '0';
+      warp.style.left = '0';
+      warp.style.width = '100%';
+      warp.style.height = '100%';
+      warp.style.background = type === 'student' 
+        ? 'radial-gradient(circle, rgba(255,215,0,0.8), transparent 70%)' 
+        : 'radial-gradient(circle, rgba(0,212,255,0.8), transparent 70%)';
+      warp.style.zIndex = '9999';
+      warp.style.opacity = '0';
+      warp.style.animation = 'warpEffect 1s ease-out';
+      
+      document.body.appendChild(warp);
+      
+      // Animate card
+      portalCard.style.animation = 'none';
+      setTimeout(() => {
+        portalCard.style.transform = 'scale(0.9)';
+        portalCard.style.opacity = '0.5';
+      }, 10);
+      
+      // Navigate after animation
+      setTimeout(() => {
+        const url = type === 'student' ? '/home/' : '/faculty_login/';
+        window.location.href = url;
+      }, 600);
+    }
+
+    // Add CSS for animations
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes ripple {
+        to {
+          transform: translate(-50%, -50%) scale(40);
+          opacity: 0;
+        }
+      }
+      
+      @keyframes warpEffect {
+        0% {
+          opacity: 0;
+          transform: scale(0.1);
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: scale(3);
+        }
+      }
+      
+      .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease;
+      }
+      
+      .animate-on-scroll.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Scroll animations
+    function initScrollAnimations() {
+      const elements = document.querySelectorAll('.portal-card, .logo-container, .footer');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+      });
+      
+      elements.forEach(el => {
+        el.classList.add('animate-on-scroll');
+        observer.observe(el);
+      });
+    }
+
+    // Initialize everything
+    document.addEventListener('DOMContentLoaded', () => {
+      createStars();
+      createShootingStars();
+      createFloatingElements();
+      initScrollAnimations();
+      
+      // Add audio for interaction (optional)
+      const hoverSound = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAZGF0YQQ=');
+      
+      document.querySelectorAll('.portal-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          card.style.zIndex = '10';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+          card.style.zIndex = '2';
+        });
+      });
+      
+      // Add keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === '1') {
+          document.querySelector('.student-btn').click();
+        } else if (e.key === '2') {
+          document.querySelector('.faculty-btn').click();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

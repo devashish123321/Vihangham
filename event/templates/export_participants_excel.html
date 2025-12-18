@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Participants - {{ event.title }}{% endblock %}
+
+{% block content %}
+<div class="page-header" style="display:flex; align-items:center; gap:12px; margin-bottom:18px;">
+    <a href="{% url 'enter_winners' event.id %}" class="winner-btn" style="background:#f0f0f0; color:#333; padding:8px 12px; border-radius:8px; text-decoration:none;">
+        ← Back
+    </a>
+
+    <!-- Download Excel button (calls the download view) -->
+    <a href="{% url 'download_participants_excel_download' event.id %}" 
+       class="winner-btn" 
+       style="background:linear-gradient(90deg,#10c479,#0bbdff); margin-left:10px; padding:8px 12px; border-radius:8px; color:white; text-decoration:none;">
+        📄 Download Excel
+    </a>
+
+    <!-- Optional: Print button -->
+    <button onclick="window.print()" style="margin-left:10px; padding:8px 12px; border-radius:8px;">🖨 Print</button>
+
+    <h2 style="margin:0 0 0 18px;">Participants — {{ event.title }}</h2>
+</div>
+
+<div class="participants-card" style="background:white; padding:16px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+    {% if participants %}
+        <table style="width:100%; border-collapse:collapse; font-family:inherit;">
+            <thead>
+                <tr style="text-align:left; border-bottom:1px solid #eee;">
+                    <th style="padding:10px 8px;">#</th>
+                    <th style="padding:10px 8px;">Name</th>
+                    <th style="padding:10px 8px;">Email</th>
+                    <th style="padding:10px 8px;">Phone</th>
+                    <th style="padding:10px 8px;">College</th>
+                    <th style="padding:10px 8px;">Branch</th>
+                    <th style="padding:10px 8px;">Year</th>
+                    <th style="padding:10px 8px;">Registered At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in participants %}
+                <tr style="border-bottom:1px solid #f6f6f6;">
+                    <td style="padding:10px 8px;">{{ forloop.counter }}</td>
+                    <td style="padding:10px 8px;">{{ p.name }}</td>
+                    <td style="padding:10px 8px;">{{ p.email }}</td>
+                    <td style="padding:10px 8px;">{{ p.phone }}</td>
+                    <td style="padding:10px 8px;">{{ p.college }}</td>
+                    <td style="padding:10px 8px;">{{ p.branch }}</td>
+                    <td style="padding:10px 8px;">{{ p.year }}</td>
+                    <td style="padding:10px 8px;">{{ p.registration_date|date:"d M, Y H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No participants found for this event.</p>
+    {% endif %}
+</div>
+{% endblock %}

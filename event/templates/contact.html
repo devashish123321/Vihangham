@@ -1,0 +1,163 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    background: linear-gradient(135deg, #0b0b0f, #151739);
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+      background: linear-gradient(275deg, #a9977c , #71713e);
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+
+  
+    .create-btn {
+      display: inline-block;
+      background: linear-gradient(90deg, #7fa313, #091113);
+      color: #fff;
+      width: 10%  ;
+      margin-left:-20%;
+      margin-top: -42%;
+      block-size: 20px;
+      padding: 12px 25px;
+      border-radius: 10px;
+      text-decoration:none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .create-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(19, 17, 18, 0.5);
+    }
+    
+
+  .form-container {
+    /* background: rgba(83, 91, 153, 0.75) ; */
+    padding: 40px 30px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 0 30px rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    overflow-y: auto;
+    max-height: 90vh;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #ffcc00;
+    font-size: 2rem;
+    text-shadow: 0 0 15px rgba(253, 249, 235, 0.7);
+  }
+
+  form input, form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  form input:focus, form textarea:focus {
+    background: rgba(255,255,255,0.25);
+    box-shadow: 0 0 10px #1f1e1a;
+  }
+
+  textarea {
+    min-height: 100px;
+    resize: none;
+  }
+
+  form button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(90deg,#cbf32e,#0f0e0e);
+    color: #000;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+
+  form button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  }
+
+  label {
+    font-weight: 500;
+    color: #ffeb99;
+    margin-bottom: 5px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 500px) {
+    .form-container {
+      padding: 30px 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+   
+  <a href="/home/" class="create-btn">BACK</a>
+<div class="form-container">
+  <h2>Contact Us</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+    
+    <div class="form-group">
+      <label for="name">Full Name</label>
+      <input type="text" name="name" id="name" placeholder="Enter your full name" required value="{{ form.name.value|default_if_none:'' }}">
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" placeholder="Enter your email" required value="{{ form.email.value|default_if_none:'' }}">
+    </div>
+
+    <div class="form-group">
+      <label for="subject">Subject</label>
+      <input type="text" name="subject" id="subject" placeholder="Enter subject" required value="{{ form.subject.value|default_if_none:'' }}">
+    </div>
+
+    <div class="form-group">
+      <label for="message">Message</label>
+      <textarea name="message" id="message" placeholder="Write your message..." required>{{ form.message.value|default_if_none:'' }}</textarea>
+    </div>
+
+    <button type="submit">Send Message</button>
+  </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,629 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Event Winners</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  min-height:100vh;
+  background:#0b0b17;
+  font-family:Poppins;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.card{
+  background:rgba(20,20,35,0.9);
+  padding:35px;
+  border-radius:18px;
+  width:420px;
+  box-shadow:0 0 25px rgba(255,215,0,0.25);
+  text-align:center;
+}
+
+h2{
+  margin-bottom:25px;
+  color:#ffd700;
+}
+
+.winner{
+  font-size:18px;
+  margin:12px 0;
+}
+
+.empty{
+  color:#aaa;
+  font-style:italic;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>🏆 {{ event.title }} Winners</h2>
+
+  {% if winner %}
+    <p class="winner">🥇 {{ winner.first_winner }}</p>
+    <p class="winner">🥈 {{ winner.second_winner }}</p>
+    <p class="winner">🥉 {{ winner.third_winner }}</p>
+  {% else %}
+    <p class="empty">Winners not announced yet</p>
+  {% endif %}
+</div>
+
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🏆 Event Winners | Vyangam Sports Fest</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+<style>
+:root {
+  --gold: #ffd700;
+  --silver: #c0c0c0;
+  --bronze: #cd7f32;
+  --primary: #6a11cb;
+  --secondary: #2575fc;
+  --dark-bg: #0b0b17;
+  --card-bg: rgba(20, 20, 35, 0.95);
+  --text-light: #f0f0f0;
+  --text-muted: #a8b2d1;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0b0b17, #1a0b2a, #0b1725);
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-light);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Background animation */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(106, 17, 203, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 40% 80%, rgba(37, 117, 252, 0.08) 0%, transparent 40%);
+  z-index: -1;
+}
+
+/* Back button */
+.back-btn {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 12px 25px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+  z-index: 10;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.back-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(106, 17, 203, 0.5);
+}
+
+/* Main container */
+.container {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.event-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #ffd700, #ff8a00, #ffd700);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  margin-bottom: 30px;
+}
+
+/* Celebration crown */
+.crown-icon {
+  font-size: 4rem;
+  color: var(--gold);
+  margin-bottom: 20px;
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Winner cards container */
+.winners-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+/* Winner card */
+.winner-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.winner-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 100%;
+}
+
+.winner-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+/* Medal positions */
+.first-place::before {
+  background: linear-gradient(to bottom, var(--gold), #ffed4e);
+}
+
+.second-place::before {
+  background: linear-gradient(to bottom, var(--silver), #e6e6e6);
+}
+
+.third-place::before {
+  background: linear-gradient(to bottom, var(--bronze), #e6a65c);
+}
+
+/* Medal icon */
+.medal {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.first-place .medal {
+  background: radial-gradient(circle at 30% 30%, var(--gold), #daa520);
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+}
+
+.second-place .medal {
+  background: radial-gradient(circle at 30% 30%, var(--silver), #a0a0a0);
+  box-shadow: 0 0 25px rgba(192, 192, 192, 0.4);
+}
+
+.third-place .medal {
+  background: radial-gradient(circle at 30% 30%, var(--bronze), #8b4513);
+  box-shadow: 0 0 25px rgba(205, 127, 50, 0.4);
+}
+
+/* Winner info */
+.winner-info {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.position {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.first-place .position {
+  color: var(--gold);
+}
+
+.second-place .position {
+  color: var(--silver);
+}
+
+.third-place .position {
+  color: var(--bronze);
+}
+
+.winner-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: var(--text-light);
+}
+
+.winner-details {
+  color: var(--text-muted);
+  font-size: 1rem;
+  display: flex;
+  gap: 15px;
+}
+
+.winner-details i {
+  margin-right: 5px;
+}
+
+/* Trophy icon in winner card */
+.trophy-icon {
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.1);
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Empty state */
+.empty-state {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 60px 40px;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.empty-icon {
+  font-size: 5rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.empty-title {
+  font-size: 2rem;
+  color: var(--text-muted);
+  margin-bottom: 15px;
+}
+
+.empty-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  margin-bottom: 25px;
+}
+
+/* Celebration message */
+.celebration-message {
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 30px;
+  text-align: center;
+  width: 100%;
+  box-shadow: 0 8px 25px rgba(106, 17, 203, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.celebration-message h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Confetti animation */
+.confetti {
+  position: fixed;
+  width: 15px;
+  height: 15px;
+  background: var(--gold);
+  top: -20px;
+  opacity: 0;
+  z-index: -1;
+}
+
+/* Footer */
+.footer {
+  margin-top: 50px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  padding: 20px;
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .back-btn {
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+  
+  .event-title {
+    font-size: 2.2rem;
+  }
+  
+  .winner-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+    padding: 20px;
+  }
+  
+  .winner-info {
+    text-align: center;
+  }
+  
+  .winner-name {
+    font-size: 1.6rem;
+  }
+  
+  .winner-details {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .trophy-icon {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .event-title {
+    font-size: 1.8rem;
+  }
+  
+  .medal {
+    width: 70px;
+    height: 70px;
+    font-size: 2rem;
+  }
+  
+  .empty-state {
+    padding: 40px 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<a href="javascript:history.back()" class="back-btn animate__animated animate__fadeInLeft">
+  <i class="fas fa-arrow-left"></i> Back to Events
+</a>
+
+<div class="container">
+  <div class="header animate__animated animate__fadeInDown">
+    <div class="crown-icon">
+      <i class="fas fa-crown"></i>
+    </div>
+    <h1 class="event-title">{{ event.title }}</h1>
+    <p class="subtitle">Celebrating Excellence and Sportsmanship</p>
+  </div>
+
+  {% if winner %}
+  <div class="winners-container">
+    <!-- First Place -->
+    <div class="winner-card first-place animate__animated animate__fadeInUp">
+      <div class="medal">
+        <i class="fas fa-trophy"></i>
+      </div>
+      <div class="winner-info">
+        <div class="position">🏆 First Place</div>
+        <div class="winner-name">{{ winner.first_winner }}</div>
+        <div class="winner-details">
+          <span><i class="fas fa-award"></i> Gold Medalist</span>
+          <span><i class="fas fa-star"></i> Champion</span>
+        </div>
+      </div>
+      <div class="trophy-icon">
+        <i class="fas fa-trophy"></i>
+      </div>
+    </div>
+
+    <!-- Second Place -->
+    <div class="winner-card second-place animate__animated animate__fadeInUp animate__delay-1s">
+      <div class="medal">
+        <i class="fas fa-medal"></i>
+      </div>
+      <div class="winner-info">
+        <div class="position">🥈 Second Place</div>
+        <div class="winner-name">{{ winner.second_winner }}</div>
+        <div class="winner-details">
+          <span><i class="fas fa-award"></i> Silver Medalist</span>
+          <span><i class="fas fa-star"></i> Runner-up</span>
+        </div>
+      </div>
+      <div class="trophy-icon">
+        <i class="fas fa-medal"></i>
+      </div>
+    </div>
+
+    <!-- Third Place -->
+    <div class="winner-card third-place animate__animated animate__fadeInUp animate__delay-2s">
+      <div class="medal">
+        <i class="fas fa-medal"></i>
+      </div>
+      <div class="winner-info">
+        <div class="position">🥉 Third Place</div>
+        <div class="winner-name">{{ winner.third_winner }}</div>
+        <div class="winner-details">
+          <span><i class="fas fa-award"></i> Bronze Medalist</span>
+          <span><i class="fas fa-star"></i> Finalist</span>
+        </div>
+      </div>
+      <div class="trophy-icon">
+        <i class="fas fa-medal"></i>
+      </div>
+    </div>
+    
+    <!-- Celebration Message -->
+    <div class="celebration-message animate__animated animate__fadeIn animate__delay-3s">
+      <h3><i class="fas fa-glass-cheers"></i> Congratulations to All Winners!</h3>
+      <p>Your hard work, dedication, and sportsmanship have been truly inspiring. Keep shining!</p>
+    </div>
+    
+  </div>
+  {% else %}
+  <!-- Empty State -->
+  <div class="empty-state animate__animated animate__fadeIn">
+    <div class="empty-icon">
+      <i class="far fa-clock"></i>
+    </div>
+    <h2 class="empty-title">Winners Not Announced Yet</h2>
+    <p class="empty-subtitle">The results are being finalized. Check back soon to see who won!</p>
+    <a href="javascript:history.back()" class="back-btn" style="position: relative; top: 0; left: 0; display: inline-flex;">
+      <i class="fas fa-arrow-left"></i> Back to Events
+    </a>
+  </div>
+  {% endif %}
+  
+  <div class="footer">
+    <p>© 2025 Vyangam Sports Fest | Celebrating Excellence in Sports</p>
+    <p><i class="fas fa-heart" style="color: #ff6b6b;"></i> Congratulations to all participants!</p>
+  </div>
+</div>
+
+<script>
+// Add celebration confetti if winners are announced
+document.addEventListener('DOMContentLoaded', function() {
+  {% if winner %}
+  // Create confetti effect
+  function createConfetti() {
+    const colors = ['#ffd700', '#c0c0c0', '#cd7f32', '#6a11cb', '#2575fc', '#ff6b6b'];
+    const container = document.body;
+    
+    for (let i = 0; i < 100; i++) {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + 'vw';
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.width = Math.random() * 15 + 5 + 'px';
+      confetti.style.height = Math.random() * 15 + 5 + 'px';
+      confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+      container.appendChild(confetti);
+      
+      // Animation
+      const animation = confetti.animate([
+        { top: '-20px', opacity: 0, transform: 'rotate(0deg)' },
+        { top: Math.random() * 100 + 'vh', opacity: 0.8, transform: 'rotate(' + Math.random() * 360 + 'deg)' },
+        { top: '100vh', opacity: 0, transform: 'rotate(' + Math.random() * 720 + 'deg)' }
+      ], {
+        duration: Math.random() * 3000 + 2000,
+        delay: Math.random() * 1000
+      });
+      
+      // Remove confetti after animation
+      animation.onfinish = () => confetti.remove();
+    }
+  }
+  
+  // Start confetti after a delay
+  setTimeout(createConfetti, 500);
+  {% endif %}
+  
+  // Add hover effect to winner cards
+  const winnerCards = document.querySelectorAll('.winner-card');
+  winnerCards.forEach(card => {
+    card.addEventListener('mouseenter', function() {
+      this.style.transform = 'translateY(-8px) scale(1.02)';
+    });
+    
+    card.addEventListener('mouseleave', function() {
+      this.style.transform = 'translateY(0) scale(1)';
+    });
+  });
+});
+</script>
+
+</body>
+</html>

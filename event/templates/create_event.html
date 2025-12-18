@@ -1,0 +1,593 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Event | Event Management</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* -------------------- GLOBAL STYLES -------------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f0c1d 0%, #2a1b3d 50%, #0f0c1d 100%);
+      color: #fff;
+      padding: 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated Background Elements */
+    .bg-particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    /* -------------------- MAIN CONTAINER -------------------- */
+    .main-container {
+      width: 100%;
+      max-width: 700px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Back Button */
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left:-50%;
+      z-index: 100;
+    }
+
+    .back-btn a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 50px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .back-btn a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* -------------------- FORM CONTAINER -------------------- */
+    .form-container {
+      background: rgba(20, 18, 38, 0.85);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.5),
+        0 5px 15px rgba(0, 0, 0, 0.3),
+        inset 0 0 1px rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      animation: slideUp 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .form-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #ff0080, #00ccff);
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* -------------------- HEADER -------------------- */
+    .form-header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .form-header h2 {
+      font-size: 2.5rem;
+      background: linear-gradient(90deg, #ff0080, #00ccff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .form-header p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1rem;
+    }
+
+    /* -------------------- FORM STYLES -------------------- */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        flex-direction: column;
+        gap: 25px;
+      }
+    }
+
+    .input-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-label {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .input-label i {
+      color: #ff0080;
+    }
+
+    .input-field {
+      padding: 16px 20px;
+      font-size: 1rem;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      outline: none;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .input-field:focus {
+      border-color: #ff0080;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 3px rgba(255, 0, 128, 0.2);
+    }
+
+    textarea.input-field {
+      min-height: 140px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    /* File Upload Customization */
+    .file-upload-container {
+      position: relative;
+    }
+
+    .file-upload-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px dashed rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .file-upload-label:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .file-upload-text {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .file-upload-btn {
+      background: rgba(255, 0, 128, 0.2);
+      color: #ff0080;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .file-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      margin-top: 10px;
+      padding: 18px;
+      background: linear-gradient(90deg, #ff0080, #00ccff);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 5px 15px rgba(255, 0, 128, 0.3);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(255, 0, 128, 0.4);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    /* -------------------- FORM VALIDATION STYLES -------------------- */
+    .input-field.error {
+      border-color: #ff4757;
+    }
+
+    .error-message {
+      color: #ff4757;
+      font-size: 0.85rem;
+      margin-top: 5px;
+      display: none;
+    }
+
+    /* -------------------- RESPONSIVE STYLES -------------------- */
+    @media (max-width: 768px) {
+      .form-container {
+        padding: 30px 25px;
+      }
+      
+      .form-header h2 {
+        font-size: 2rem;
+      }
+      
+      .back-btn {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin-bottom: 20px;
+      }
+      
+      .back-btn a {
+        width: fit-content;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 15px;
+      }
+      
+      .form-container {
+        padding: 25px 20px;
+      }
+      
+      .form-header h2 {
+        font-size: 1.8rem;
+      }
+      
+      .input-field {
+        padding: 14px 16px;
+      }
+    }
+
+    /* -------------------- ANIMATIONS -------------------- */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .floating {
+      animation: float 6s ease-in-out infinite;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Animated Background Particles -->
+  <div class="bg-particles" id="particles"></div>
+
+  <div class="main-container">
+    <!-- Back Button -->
+    <div class="back-btn">
+      <a href="/faculty_home/">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Dashboard</span>
+      </a>
+    </div>
+
+    <!-- Form Container -->
+    <div class="form-container floating">
+      <div class="form-header">
+        <h2>Create New Event</h2>
+        <p>Fill in the details to create a memorable event</p>
+      </div>
+
+      <form method="POST" enctype="multipart/form-data" id="createEventForm">
+        {% csrf_token %}
+
+        <!-- Event Title -->
+        <div class="input-group">
+          <label class="input-label">
+            <i class="fas fa-heading"></i>
+            Event Title
+          </label>
+          {{ form.title }}
+          <div class="error-message" id="title-error">Please enter a valid event title</div>
+        </div>
+
+        <!-- Event Description -->
+        <div class="input-group">
+          <label class="input-label">
+            <i class="fas fa-align-left"></i>
+            Description
+          </label>
+          {{ form.description }}
+          <div class="error-message" id="desc-error">Please provide a detailed event description</div>
+        </div>
+
+        <!-- Date and Time Row -->
+        <div class="form-row">
+          <div class="input-group">
+            <label class="input-label">
+              <i class="fas fa-calendar-alt"></i>
+              Date
+            </label>
+            {{ form.date }}
+            <div class="error-message" id="date-error">Please select a valid date</div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">
+              <i class="fas fa-clock"></i>
+              Time
+            </label>
+            {{ form.time }}
+            <div class="error-message" id="time-error">Please select a valid time</div>
+          </div>
+        </div>
+
+        <!-- Venue -->
+        <div class="input-group">
+          <label class="input-label">
+            <i class="fas fa-map-marker-alt"></i>
+            Venue
+          </label>
+          {{ form.venue }}
+          <div class="error-message" id="venue-error">Please enter a venue</div>
+        </div>
+
+        <!-- Event Image Upload -->
+        <div class="input-group">
+          <label class="input-label">
+            <i class="fas fa-image"></i>
+            Event Image
+          </label>
+          <div class="file-upload-container">
+            <label for="id_image" class="file-upload-label">
+              <div class="file-upload-text">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span id="file-text">Choose an image for your event</span>
+              </div>
+              <div class="file-upload-btn">Browse</div>
+            </label>
+            {{ form.image }}
+            <div class="error-message" id="image-error">Please select an image file (JPG, PNG, GIF)</div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-plus-circle"></i>
+          Create Event
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Add classes to form inputs
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get all form inputs and add styling classes
+      const titleInput = document.querySelector('#id_title');
+      const descInput = document.querySelector('#id_description');
+      const dateInput = document.querySelector('#id_date');
+      const timeInput = document.querySelector('#id_time');
+      const venueInput = document.querySelector('#id_venue');
+      const imageInput = document.querySelector('#id_image');
+      
+      if (titleInput) titleInput.className = 'input-field';
+      if (descInput) descInput.className = 'input-field';
+      if (dateInput) dateInput.className = 'input-field';
+      if (timeInput) timeInput.className = 'input-field';
+      if (venueInput) venueInput.className = 'input-field';
+      
+      // Set file input to hidden and update UI when file is selected
+      if (imageInput) {
+        imageInput.className = 'file-input';
+        imageInput.addEventListener('change', function() {
+          const fileText = document.getElementById('file-text');
+          if (this.files && this.files.length > 0) {
+            fileText.textContent = this.files[0].name;
+          } else {
+            fileText.textContent = 'Choose an image for your event';
+          }
+        });
+      }
+      
+      // Add placeholders if not present
+      if (titleInput && !titleInput.placeholder) titleInput.placeholder = 'Enter event title';
+      if (descInput && !descInput.placeholder) descInput.placeholder = 'Describe your event details...';
+      if (dateInput && !dateInput.placeholder) dateInput.placeholder = 'Select date';
+      if (timeInput && !timeInput.placeholder) timeInput.placeholder = 'Select time';
+      if (venueInput && !venueInput.placeholder) venueInput.placeholder = 'Enter venue location';
+      
+      // Simple form validation
+      const form = document.getElementById('createEventForm');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          let isValid = true;
+          
+          // Check title
+          if (titleInput && titleInput.value.trim() === '') {
+            showError(titleInput, 'title-error');
+            isValid = false;
+          } else {
+            hideError(titleInput, 'title-error');
+          }
+          
+          // Check description
+          if (descInput && descInput.value.trim() === '') {
+            showError(descInput, 'desc-error');
+            isValid = false;
+          } else {
+            hideError(descInput, 'desc-error');
+          }
+          
+          // Check date
+          if (dateInput && dateInput.value === '') {
+            showError(dateInput, 'date-error');
+            isValid = false;
+          } else {
+            hideError(dateInput, 'date-error');
+          }
+          
+          // Check time
+          if (timeInput && timeInput.value === '') {
+            showError(timeInput, 'time-error');
+            isValid = false;
+          } else {
+            hideError(timeInput, 'time-error');
+          }
+          
+          // Check venue
+          if (venueInput && venueInput.value.trim() === '') {
+            showError(venueInput, 'venue-error');
+            isValid = false;
+          } else {
+            hideError(venueInput, 'venue-error');
+          }
+          
+          if (!isValid) {
+            e.preventDefault();
+          }
+        });
+      }
+      
+      function showError(input, errorId) {
+        input.classList.add('error');
+        const errorElement = document.getElementById(errorId);
+        if (errorElement) {
+          errorElement.style.display = 'block';
+        }
+      }
+      
+      function hideError(input, errorId) {
+        input.classList.remove('error');
+        const errorElement = document.getElementById(errorId);
+        if (errorElement) {
+          errorElement.style.display = 'none';
+        }
+      }
+      
+      // Create animated background particles
+      createParticles();
+    });
+    
+    // Create animated particles for background
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 30;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random size
+        const size = Math.random() * 4 + 1;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        // Random position
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        // Random color with opacity
+        const colors = [
+          'rgba(255, 0, 128, 0.6)',
+          'rgba(0, 204, 255, 0.6)',
+          'rgba(255, 255, 255, 0.4)'
+        ];
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        // Random animation
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 5;
+        particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register for {{ event.title }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    background: linear-gradient(135deg, #0b0b0f, #151739);
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .form-container {
+    background: rgba(69, 73, 68, 0.75);
+    padding: 40px 30px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 0 30px rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #ffcc00;
+    font-size: 2rem;
+    text-shadow: 0 0 15px rgba(255,204,0,0.7);
+  }
+
+  form input, form select, form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  form input:focus, form select:focus, form textarea:focus {
+    background: rgba(255,255,255,0.25);
+    box-shadow: 0 0 10px #ffcc00;
+  }
+
+  textarea {
+    min-height: 80px;
+    resize: none;
+  }
+
+  form button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(90deg,#ff5100,#ffc107);
+    color: #000;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+
+  form button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  }
+
+  label {
+    font-weight: 500;
+    color: #ffeb99;
+    margin-bottom: 5px;
+  }
+
+  .form-group {
+    display: flex;
+    
+    flex-direction: column;
+  }
+</style>
+</head>
+<body>
+
+<div class="form-container">
+  
+  <h2>Register for {{ event.title }}</h2>
+
+  <form method="POST" action="{% url 'register_event' event.id %}">
+    {% csrf_token %}
+
+    <!-- Added event name field (readonly) -->
+    <div class="form-group">
+      <label>Event Name</label>
+      <input type="text" value="{{ event.title }}" readonly>
+    </div>
+
+    <div class="form-group">
+      <label for="name">Full Name</label>
+      <input type="text" name="name" id="name" placeholder="Enter your name" required>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" placeholder="Enter your email" required>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone Number</label>
+      <input type="text" name="phone" id="phone" placeholder="Enter phone number" required>
+    </div>
+
+    <div class="form-group">
+      <label for="college">College / School</label>
+      <input type="text" name="college" id="college" placeholder="Enter college/school" required>
+    </div>
+
+    <div class="form-group">
+      <label for="branch">Branch / Department</label>
+      <input type="text" name="branch" id="branch" placeholder="Enter branch/department">
+    </div>
+
+    <div class="form-group">
+      <label for="year">Year / Class</label>
+      <input type="text" name="year" id="year" placeholder="Enter your year/class">
+    </div>
+
+    <div class="form-group">
+      <label for="notes">Additional Notes</label>
+      <textarea name="notes" id="notes" placeholder="Any special requirements or notes..."></textarea>
+    </div>
+
+    <!-- REQUIRED: event id pass to backend -->
+    <input type="hidden" name="event" value="{{ event.id }}">
+
+    <button type="submit">Register Now</button>
+  </form>
+</div>
+
+</body>
+</html>
